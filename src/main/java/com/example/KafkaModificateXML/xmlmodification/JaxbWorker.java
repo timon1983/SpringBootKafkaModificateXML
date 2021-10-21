@@ -1,4 +1,4 @@
-package com.example.KafkaModificateXML.service;
+package com.example.KafkaModificateXML.xmlmodification;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -39,7 +39,12 @@ public class JaxbWorker {
             FIXML fixml1 = (FIXML) unmarshallerHandler.getResult();
             String g = ((TradeCaptureReportMessageT) fixml1.getBatch().get(0).getMessage().get(0).getValue()).getTrdID();
             Field[] fields = ((TradeCaptureReportMessageT) fixml1.getBatch().get(0).getMessage().get(0).getValue()).getClass().getDeclaredFields();
-            Arrays.stream(fields).map(Field::getName).forEach(System.out::println);
+            //Arrays.stream(fields).map(Field::getName).forEach(System.out::println);
+            TradeCaptureReportMessageT t = (TradeCaptureReportMessageT) fixml1.getBatch().get(0).getMessage().get(0).getValue();
+            Field f = t.getClass().getDeclaredField("trdID");
+            f.setAccessible(true);
+            String b = (String) f.get(t);
+            System.out.println(b);
 
             XMLInputFactory factory = XMLInputFactory.newInstance();
             XMLStreamReader xmlStreamReader2 = factory.createXMLStreamReader(getStringReader(xml));
@@ -53,7 +58,7 @@ public class JaxbWorker {
             String result = writer.toString();
             //System.out.println(result);
 
-        } catch (JAXBException | XMLStreamException | IOException | SAXException | ParserConfigurationException e) {
+        } catch (JAXBException | XMLStreamException | IOException | SAXException | ParserConfigurationException | NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

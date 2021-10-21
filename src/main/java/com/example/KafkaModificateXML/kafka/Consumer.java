@@ -1,5 +1,6 @@
-package com.example.KafkaModificateXML.service;
+package com.example.KafkaModificateXML.kafka;
 
+import com.example.KafkaModificateXML.xmlmodification.ModificationXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

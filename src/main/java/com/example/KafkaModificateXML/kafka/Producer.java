@@ -1,6 +1,6 @@
-package com.example.KafkaModificateXML.service;
+package com.example.KafkaModificateXML.kafka;
 
-import com.example.KafkaModificateXML.model.DataDTO;
+import com.example.KafkaModificateXML.model.DataXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,8 +19,8 @@ public class Producer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void ptintData(DataDTO dataDTO){
-        System.out.println(dataDTO);
+    public void ptintData(DataXML dataXML){
+        System.out.println(dataXML);
     }
 
     public void modificationXML(String tagName , String attribute , String valueOfAttribute){

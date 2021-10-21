@@ -5,38 +5,56 @@
     <title>Modification XML</title>
 </head>
 <body>
-<form action="#" th:action="@{/UI}" th:object="${dataDTO}" method="post">
+<form action="#" th:action="@{/UI}" th:object="${dataXmlDTO}" method="post">
   <table>
 
       <td>
           <text>Поля входящего XML</text>
     <br/>
-          <input type="text" th:field="*{incomeField1}" id="incomeField1" placeholder="Income Field One">
+          <input type="text" th:field="*{in1}" id="in1" placeholder="Income Field One">
     <br/>
-          <input type="text" th:field="*{incomeField2}" id="incomeField2" placeholder="Income Field Two">
+          <input type="text" th:field="*{in2}" id="in2" placeholder="Income Field Two">
     <br/>
-          <input type="text" th:field="*{incomeField3}" id="incomeField3" placeholder="Income Field Three">
+          <input type="text" th:field="*{in3}" id="in3" placeholder="Income Field Three">
     <br/>
-          <input type="text" th:field="*{incomeField4}" id="incomeField4" placeholder="Income Field Four">
+          <input type="text" th:field="*{in4}" id="in4" placeholder="Income Field Four">
     <br/>
 
       </td>
       <td>
           <text>Поля иходящего XML</text>
     <br/>
-          <input type="text" th:field="*{outgoingField1}" id="outgoingField1" placeholder="Outgoing Field One">
+          <input type="text" th:field="*{out1}" id="out1" placeholder="Outgoing Field One">
     <br/>
-          <input type="text" th:field="*{outgoingField2}" id="outgoingField2" placeholder="Outgoing Field Two">
+          <input type="text" th:field="*{out2}" id="out2" placeholder="Outgoing Field Two">
     <br/>
-          <input type="text" th:field="*{outgoingField3}" id="outgoingField3" placeholder="Outgoing Field Three">
+          <input type="text" th:field="*{out3}" id="out3" placeholder="Outgoing Field Three">
     <br/>
-          <input type="text" th:field="*{outgoingField4}" id="outgoingField4" placeholder="Outgoing Field Four">
+          <input type="text" th:field="*{out4}" id="out4" placeholder="Outgoing Field Four">
     <br/>
+      </td>
+<!--      <td>-->
+<!--          <text>Тип файла Xml</text>-->
+<!--          <br/>-->
+<!--          <select name="selectCategory" class="form-control" id="selectCategory" -->
+<!--                  onchange="g;" th:field="*{type}">-->
+<!--              <option value="MUREX">MUREX</option>-->
+<!--              <option value="CALIPSOPI">CALIPSOPI</option>-->
+<!--              <option value="CALIPSOPAYMENT">CALIPSOPAYMENT</option>-->
+<!--          </select>-->
+<!--      </td>-->
+      <td>
+          <text>Тип файла Xml</text>
+          <br/>
+          <input type="text" th:field="*{type}" id="type" placeholder="TypeXML">
       </td>
   </table>
 
     <input type="submit" value="Done">
 </form>
+<form method="get" action="/UI/MUREX/"><button type="submit">MUREX</button></form>
+<form method="get" action="/UI/CALIPSOPI/"><button type="submit">CALIPSOPI</button></form>
+<form method="get" action="/UI/CALIPSOPAYMENT/"><button type="submit">CALIPSOPAYMENT</button></form>
 
 </td>
 <td>

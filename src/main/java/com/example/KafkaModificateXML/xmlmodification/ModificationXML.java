@@ -1,7 +1,9 @@
-package com.example.KafkaModificateXML.service;
+package com.example.KafkaModificateXML.xmlmodification;
 
+import com.example.KafkaModificateXML.kafka.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
@@ -23,9 +25,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ModificationXML {
 
-    @Autowired
+
     private Producer producer;
     @Value("${consumer.tagName}")
     private String tagName;
@@ -33,9 +36,17 @@ public class ModificationXML {
     private String attribute;
     @Value("${answer.xml}")
     private String outXML;
-    String valueFromIncomingMessage;
-    FIXML incomingMessage;
-    FIXML outgoingMessage;
+    private String valueFromIncomingMessage;
+    private FIXML incomingMessage;
+    private FIXML outgoingMessage;
+    private List<String> fieldsIncomeForWork;
+    private List<String> fieldsOutgoingForWork;
+
+    @Autowired
+    public ModificationXML(Producer producer) {
+        this.producer = producer;
+    }
+
 
     /**
      * демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
@@ -43,19 +54,18 @@ public class ModificationXML {
      * установка значений , маршализация в строку , отправка сообщения
      */
     public void modificationAndSendToProducerXML(String xml) {
+
         getListOfFieldNameIncomeXML(xml);
 
         getListOfFieldNameOutgoingXML();
-            //((TradeCaptureReportMessageT) outgoingMessage.getBatch().get(0).getMessage().get(0).getValue()).setTrdID(valueFromIncomingMessage);
+
         marshalToStringOutgoingXML();
     }
 
-    /**демаршализация xml файла шаблона для отправки , установка значений ,
-     * получение имен полей объекта FIXML
-     * */
     public List<String> getListOfFieldNameOutgoingXML() {
         JAXBContext jaxbContext;
         List<String> listFieldsNameOutgoing = null;
+
         try {
             jaxbContext = JAXBContext.newInstance(FIXML.class);
             Unmarshaller unmarshaller1 = jaxbContext.createUnmarshaller();
@@ -66,18 +76,21 @@ public class ModificationXML {
                     .get(0).getMessage().get(0).getValue()).getClass().getDeclaredFields();
             listFieldsNameOutgoing = Arrays.stream(fieldsOutgoingMessage).map(Field::getName).collect(Collectors.toList());
 
+
         } catch (JAXBException | XMLStreamException e) {
             e.printStackTrace();
         }
         return listFieldsNameOutgoing;
     }
 
-    /**демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
+    /**
+     * демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
      * извлечение целевых значений
-     * */
-    public List<String> getListOfFieldNameIncomeXML(String xml){
+     */
+    public List<String> getListOfFieldNameIncomeXML(String xml) {
         JAXBContext jaxbContext;
         List<String> listFieldsNameIncome = null;
+        List<String> fieldsValueForInsert;
         try {
             jaxbContext = JAXBContext.newInstance(FIXML.class);
             Unmarshaller unmarshaller1 = jaxbContext.createUnmarshaller();
@@ -93,17 +106,24 @@ public class ModificationXML {
             filter.parse(is);
             incomingMessage = (FIXML) unmarshallerHandler.getResult();
             valueFromIncomingMessage = ((TradeCaptureReportMessageT) incomingMessage.getBatch().get(0).getMessage().get(0).getValue()).getTrdID();
+
             Field[] fieldsIncomingMessage = ((TradeCaptureReportMessageT) incomingMessage.getBatch()
                     .get(0).getMessage().get(0).getValue()).getClass().getDeclaredFields();
-            listFieldsNameIncome = Arrays.stream(fieldsIncomingMessage).map(Field::getName).collect(Collectors.toList());
+            listFieldsNameIncome = Arrays.stream(fieldsIncomingMessage)
+                    .map(Field::getName)
+                    .collect(Collectors.toList());
+            // fieldsValueForInsert = fieldsIncomeForWork.stream().map(x -> )
+
         } catch (IOException | JAXBException | SAXException | ParserConfigurationException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return listFieldsNameIncome;
     }
 
-    /**маршализация в строку , отправка сообщения*/
-    public void marshalToStringOutgoingXML(){
+    /**
+     * маршализация в строку , отправка сообщения
+     */
+    public void marshalToStringOutgoingXML() {
         JAXBContext jaxbContext;
         try {
             jaxbContext = JAXBContext.newInstance(FIXML.class);
@@ -120,8 +140,14 @@ public class ModificationXML {
     public StringReader getStringReader(String text) {
         return new StringReader(text);
     }
+
+    public void setFieldsForWork(List<String> fields) {
+        fieldsIncomeForWork = fields.stream().limit(4).collect(Collectors.toList());
+        fields.subList(0,4);
+        fieldsOutgoingForWork = fields.stream().skip(4).collect(Collectors.toList());
+    }
 }
 
-
+//((TradeCaptureReportMessageT) outgoingMessage.getBatch().get(0).getMessage().get(0).getValue()).setTrdID(valueFromIncomingMessage);
 
 
