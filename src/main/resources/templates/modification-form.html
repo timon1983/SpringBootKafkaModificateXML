@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Modification XML</title>
+</head>
+<body>
+<form action="#" th:action="@{/UI}" th:object="${dataDTO}" method="post">
+  <table>
+
+      <td>
+          <text>Поля входящего XML</text>
+    <br/>
+          <input type="text" th:field="*{incomeField1}" id="incomeField1" placeholder="Income Field One">
+    <br/>
+          <input type="text" th:field="*{incomeField2}" id="incomeField2" placeholder="Income Field Two">
+    <br/>
+          <input type="text" th:field="*{incomeField3}" id="incomeField3" placeholder="Income Field Three">
+    <br/>
+          <input type="text" th:field="*{incomeField4}" id="incomeField4" placeholder="Income Field Four">
+    <br/>
+
+      </td>
+      <td>
+          <text>Поля иходящего XML</text>
+    <br/>
+          <input type="text" th:field="*{outgoingField1}" id="outgoingField1" placeholder="Outgoing Field One">
+    <br/>
+          <input type="text" th:field="*{outgoingField2}" id="outgoingField2" placeholder="Outgoing Field Two">
+    <br/>
+          <input type="text" th:field="*{outgoingField3}" id="outgoingField3" placeholder="Outgoing Field Three">
+    <br/>
+          <input type="text" th:field="*{outgoingField4}" id="outgoingField4" placeholder="Outgoing Field Four">
+    <br/>
+      </td>
+  </table>
+
+    <input type="submit" value="Done">
+</form>
+
+</td>
+<td>
+<table>
+    <td>
+        <text>Имена полей иходящего XML</text>
+    </td>
+    <tr>
+        <td>
+    <tr th:each="name : ${listFieldsNameOutgoing}">
+        <td th:text="${name}"></td>
+    </tr>
+    </td>
+    </tr>
+</table>
+</body>
+</html>

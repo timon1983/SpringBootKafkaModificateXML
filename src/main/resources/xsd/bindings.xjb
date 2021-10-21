@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb"
+          xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+          version="2.1">
+    <bindings schemaLocation="fixml-components-base-5-0-SP2.xsd">
+        <bindings node="//xs:attributeGroup[@name='ComplexEventsAttributes']">
+            <bindings node=".//xs:attribute[@name='OptPayCcy']">
+                <property name="OptPayCcyAttribute"/>
+            </bindings>
+        </bindings>
+    </bindings>
+
+    <bindings schemaLocation="fixml-metadata-5-0-SP2.xsd">
+        <bindings node="//xs:element[@name='EnumDoc']">
+            <bindings node=".//xs:attribute[@name='value']">
+                <property name="ValueAttribute"/>
+            </bindings>
+        </bindings>
+    </bindings>
+
+    <bindings schemaLocation="fixml-tradecapture-base-5-0-SP2.xsd">
+        <bindings node="//xs:attributeGroup[@name='TradeCaptureReportAttributes']">
+            <bindings node=".//xs:attribute[@name='Id']">
+                <property name="DigitalSignatureID"/>
+            </bindings>
+        </bindings>
+    </bindings>
+
+<!--    <bindings schemaLocation="fpml-shared.xsd">-->
+<!--        <bindings node="//xs:group[@name='PartiesAndAccounts.model']/xs:sequence/xs:element[@name='account']">-->
+<!--            <factoryMethod name="Account2"/>-->
+<!--            <property name="AccountLow"/>-->
+<!--        </bindings>-->
+<!--    </bindings>-->
+
+<!--    <bindings schemaLocation="fpml-shared.xsd">-->
+<!--        <bindings node="//xs:group[@name='PartiesAndAccounts.model']/xs:sequence/xs:element[@name='Account']">-->
+<!--            <factoryMethod name="BigAccount"/>-->
+<!--            <property name="BigAccount"/>-->
+<!--        </bindings>-->
+<!--    </bindings>-->
+
+<!--    <bindings schemaLocation="fpml-shared.xsd"-->
+<!--              node="//xs:group[@name='PartiesAndAccounts.model']/xs:sequence/xs:element[@name='Account']">-->
+<!--        <schemaBindings>-->
+<!--            <nameXmlTransform>-->
+<!--                <elementName prefix="A_"/>-->
+<!--            </nameXmlTransform>-->
+<!--        </schemaBindings>-->
+<!--    </bindings>-->
+</bindings>

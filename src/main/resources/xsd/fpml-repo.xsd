@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+== Copyright (c) 2002-2014. All rights reserved. 
+== Financial Products Markup Language is subject to the FpML public license. 
+== A copy of this license is available at http://www.fpml.org/license/license.html
+-->
+<xsd:schema targetNamespace="http://svn.msk.trd.ru/xsd/fixml" xmlns="http://svn.msk.trd.ru/xsd/fixml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="$Revision: 11548 $" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" ecore:nsPrefix="fpml" ecore:package="org.fpml" ecore:documentRoot="FpML" xmlns:fpml-annotation="http://www.fpml.org/annotation" xmlns:view="http://www.fpml.org/views">
+
+	<xsd:include schemaLocation="fpml-asset.xsd"/>
+	<xsd:include schemaLocation="fpml-shared.xsd"/>
+	<xsd:include schemaLocation="fpml-ird.xsd"/>
+
+	<xsd:complexType name="AdjustableDateRepo">
+		<xsd:choice>
+			<xsd:element name="adjustableDate" type="AdjustableDate"/>
+		</xsd:choice>
+	</xsd:complexType>
+	
+	<xsd:complexType name="_margin">
+        <xsd:sequence>
+			<xsd:element name = "marginType" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name = "marginFactor" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="_RepoLeg">
+        <xsd:sequence>
+			<xsd:group ref="BuyerSeller.model"/>
+			<xsd:element name="settlementDate" type="AdjustableDateRepo"  minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="settlementAmount" type="NullableMoney" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CashflowsRepo">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining the cashflow representation of a repo trade. Basically copied from fpml_ird.</xsd:documentation>
+			<xsd:appinfo>
+				<view:skip view="transparency" rationale="Unsupported"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="cashflowsMatchParameters" type="xsd:boolean">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">A true/false flag to indicate whether the cashflows match the parametric definition of the stream, i.e. whether the cashflows could be regenerated from the parameters without loss of information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="principalExchange" type="PrincipalExchange" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The initial, intermediate and final principal exchange amounts. Typically required on cross currency interest rate swaps where actual exchanges of principal occur. A list of principal exchange elements may be ordered in the document by ascending adjusted principal exchange date. An FpML document containing an unordered principal exchange list is still regarded as a conformant document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="paymentCalculationPeriod" type="PaymentCalculationPeriod" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The adjusted payment date and associated calculation period parameters required to calculate the actual or projected payment amount. A list of payment calculation period elements may be ordered in the document by ascending adjusted payment date. An FpML document containing an unordered list of payment calculation periods is still regarded as a conformant document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SecflowsRepo">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type defining the security flow representation of a repo trade - partial redumption of notional.</xsd:documentation>
+			<xsd:appinfo>
+				<view:skip view="transparency" rationale="Unsupported"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="principalExchange" type="PrincipalExchange" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The initial, intermediate and final principal exchange amounts. Typically required on cross currency interest rate swaps where actual exchanges of principal occur. A list of principal exchange elements may be ordered in the document by ascending adjusted principal exchange date. An FpML document containing an unordered principal exchange list is still regarded as a conformant document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>	
+	
+	<xsd:complexType name="Repo">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A type for defining the equity Repo.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Product">
+				<xsd:choice>
+					<xsd:sequence>
+						<xsd:element name="floatingRateCalculation" type="FloatingRateCalculation" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="fixedRateSchedule" type="Schedule" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="dayCountFraction" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="duration" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="margin" type="_margin" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="spotLeg" type="_RepoLeg" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="forwardLeg" type="_RepoLeg" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="cashFlows" type="CashflowsRepo" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="secflows" type="SecflowsRepo" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="equity" type="EquityAsset" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="additionalPayment" type="Payment" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="bond" type="Bond" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>	
+	</xsd:complexType>
+		
+	<xsd:element name="repo" type="Repo" substitutionGroup="product">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">A swap product definition.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+		
+</xsd:schema>
+
