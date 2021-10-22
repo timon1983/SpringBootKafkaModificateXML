@@ -20,23 +20,28 @@ public class DataXML {
     private String inValue;
     @Column(name = "out_value" , length = 45)
     private String outValue;
+    @Column(name = "version", nullable = false)
+    private int version;
 
     public DataXML() {
     }
 
-    public DataXML(TypeXML type, String inValue, String outValue) {
+    public DataXML(TypeXML type, String inValue, String outValue, int version) {
         this.type = type;
         this.inValue = inValue;
         this.outValue = outValue;
+        this.version = version;
     }
 
     @Override
     public String toString() {
-        return "Data{" +
+        return "DataXML{" +
                 "id=" + id +
                 ", type=" + type +
                 ", inValue='" + inValue + '\'' +
                 ", outValue='" + outValue + '\'' +
+                ", version=" + version +
                 '}';
     }
 }
+

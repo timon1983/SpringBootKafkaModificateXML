@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Modification XML</title>
 </head>
+
 <body>
 <form action="#" th:action="@{/UI}" th:object="${dataXmlDTO}" method="post">
   <table>
-
       <td>
           <text>Поля входящего XML</text>
     <br/>
@@ -19,7 +20,6 @@
     <br/>
           <input type="text" th:field="*{in4}" id="in4" placeholder="Income Field Four">
     <br/>
-
       </td>
       <td>
           <text>Поля иходящего XML</text>
@@ -33,20 +33,15 @@
           <input type="text" th:field="*{out4}" id="out4" placeholder="Outgoing Field Four">
     <br/>
       </td>
-<!--      <td>-->
-<!--          <text>Тип файла Xml</text>-->
-<!--          <br/>-->
-<!--          <select name="selectCategory" class="form-control" id="selectCategory" -->
-<!--                  onchange="g;" th:field="*{type}">-->
-<!--              <option value="MUREX">MUREX</option>-->
-<!--              <option value="CALIPSOPI">CALIPSOPI</option>-->
-<!--              <option value="CALIPSOPAYMENT">CALIPSOPAYMENT</option>-->
-<!--          </select>-->
-<!--      </td>-->
       <td>
           <text>Тип файла Xml</text>
           <br/>
-          <input type="text" th:field="*{type}" id="type" placeholder="TypeXML">
+          <input type="text" th:field="*{type}" id="type" placeholder="TypeXML" required>
+      </td>
+      <td>
+          <text>Версия Xml</text>
+          <br/>
+          <input type="number" th:field="*{version}" id="version" placeholder="VersionXML" required>
       </td>
   </table>
 

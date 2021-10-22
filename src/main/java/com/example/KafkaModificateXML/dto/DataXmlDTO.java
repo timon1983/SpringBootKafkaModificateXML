@@ -14,4 +14,6 @@ public class DataXmlDTO {
     private String out2;
     private String out3;
     private String out4;
+    private int version;
+
 }
