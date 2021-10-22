@@ -26,7 +26,7 @@ public class ChangeObjectValue {
 
         String inFieldName;
         String outFieldName;
-        String inValue;
+        Object inValue;
 
         for(int i = 0; i < fieldsIncomeForWork.size(); i++){
             inFieldName = fieldsIncomeForWork.get(i);
@@ -43,7 +43,7 @@ public class ChangeObjectValue {
      * @param fixml
      * @return
      */
-    public String getValueByFieldName(String fieldName , FIXML fixml) {
+    public Object getValueByFieldName(String fieldName , FIXML fixml) {
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0)
@@ -51,11 +51,11 @@ public class ChangeObjectValue {
                 .get(0)
                 .getValue();
         Field field;
-        String value = null;
+        Object value = null;
         try {
             field = tradeCapture.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
-            value = (String) field.get(tradeCapture);
+            value = field.get(tradeCapture);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -68,7 +68,7 @@ public class ChangeObjectValue {
      * @param value
      * @param fixml
      */
-    public void setValueByFieldName(String fieldName, String value, FIXML fixml){
+    public void setValueByFieldName(String fieldName, Object value, FIXML fixml){
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0)

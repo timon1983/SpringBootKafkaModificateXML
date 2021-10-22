@@ -13,13 +13,13 @@ public class Producer {
     private final KafkaTemplate kafkaTemplate;
 
     @Autowired
-    public Producer( KafkaTemplate kafkaTemplate) {
+    public Producer(KafkaTemplate kafkaTemplate) {
 
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String message) {
         System.out.println("Producer send message " + message);
-        this.kafkaTemplate.send(TOPIC,message);
+        this.kafkaTemplate.send(TOPIC, message);
     }
 }

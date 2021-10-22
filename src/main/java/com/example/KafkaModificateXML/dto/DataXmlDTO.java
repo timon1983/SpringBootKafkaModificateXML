@@ -15,5 +15,7 @@ public class DataXmlDTO {
     private String out3;
     private String out4;
     private int version;
+    private String readTopic;
+    private String sendTopic;
 
 }

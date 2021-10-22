@@ -11,6 +11,7 @@ import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import ru.trd.msk.svn.xsd.fixml.FIXML;
 import ru.trd.msk.svn.xsd.fixml.TradeCaptureReportMessageT;
+
 import javax.xml.bind.*;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -28,8 +29,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class ModificationXML {
-
-
     private Producer producer;
     @Value("${consumer.tagName}")
     private String tagName;
@@ -50,8 +49,11 @@ public class ModificationXML {
         this.changeObjectValue = changeObjectValue;
     }
 
+    public ModificationXML() {
+    }
 
-    /**демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
+    /**
+     * демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
      * извлечение целевых значений, демаршализация xml файла шаблона для отправки ,
      * установка значений , маршализация в строку , отправка сообщения
      *
@@ -69,8 +71,8 @@ public class ModificationXML {
         producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
     }
 
-    /** демаршализация исходящего xml в объект FIXML
-     *
+    /**
+     * демаршализация исходящего xml в объект FIXML
      */
     public void unmarshalOutgoingMessage() {
         JAXBContext jaxbContext;
@@ -85,7 +87,8 @@ public class ModificationXML {
         }
     }
 
-    /** демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
+    /**
+     * демаршализация входящего xml файла в объект FIXML с игнорированием пространства имен ,
      * извлечение целевых значений
      *
      * @param xml
@@ -113,12 +116,13 @@ public class ModificationXML {
         }
     }
 
-    /** маршализация и преобразование в строку
+    /**
+     * маршализация и преобразование в строку
      *
      * @param changedOutMessage
      * @return
      */
-    public String  marshalToStringOutgoingXML(FIXML changedOutMessage) {
+    public String marshalToStringOutgoingXML(FIXML changedOutMessage) {
         JAXBContext jaxbContext;
         String result = null;
         try {
@@ -133,7 +137,8 @@ public class ModificationXML {
         return result;
     }
 
-    /** получение объекто StringReader для чтения XML ввиде строки
+    /**
+     * получение объекто StringReader для чтения XML ввиде строки
      *
      * @param text
      * @return
@@ -142,7 +147,8 @@ public class ModificationXML {
         return new StringReader(text);
     }
 
-    /** создание списков полей входящего и исходящего XML для модификации их значений
+    /**
+     * создание списков полей входящего и исходящего XML для модификации их значений
      *
      * @param dataXmlDTO
      */
@@ -151,11 +157,12 @@ public class ModificationXML {
         fieldsOutgoingForWork = List.of(dataXmlDTO.getOut1(), dataXmlDTO.getOut2(), dataXmlDTO.getOut3(), dataXmlDTO.getOut4());
     }
 
-    /** получение всех полей входящего XML
+    /**
+     * получение всех полей входящего XML
      *
      * @return
      */
-    public List<String> getListOfFieldNameIncomeXML(){
+    public List<String> getListOfFieldNameIncomeXML() {
         //unmarshalIncomingMessage(xml);
         Field[] fieldsIncomingMessage = ((TradeCaptureReportMessageT) incomingMessage
                 .getBatch()
@@ -170,13 +177,14 @@ public class ModificationXML {
         return listFieldsNameIncome;
     }
 
-    /** получение списка всех полей исходящего XML
+    /**
+     * получение списка всех полей исходящего XML
      *
      * @return
      */
-    public List<String> getListOfFieldNameOutgoingXML(){
+    public List<String> getListOfFieldNameOutgoingXML() {
         unmarshalOutgoingMessage();
-         Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) outgoingMessage
+        Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) outgoingMessage
                 .getBatch()
                 .get(0).getMessage()
                 .get(0)
