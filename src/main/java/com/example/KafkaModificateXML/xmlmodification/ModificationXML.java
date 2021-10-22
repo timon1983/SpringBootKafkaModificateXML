@@ -65,7 +65,8 @@ public class ModificationXML {
 
         FIXML changedOutMessage = (FIXML) changeObjectValue
                 .changeXmlMessage(incomingMessage, outgoingMessage, fieldsIncomeForWork, fieldsOutgoingForWork);
-        marshalToStringOutgoingXML(changedOutMessage);
+
+        producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
     }
 
     /** демаршализация исходящего xml в объект FIXML
@@ -112,21 +113,24 @@ public class ModificationXML {
         }
     }
 
-    /** маршализация в строку , отправка сообщения
+    /** маршализация и преобразование в строку
      *
+     * @param changedOutMessage
+     * @return
      */
-    public void marshalToStringOutgoingXML(FIXML changedOutMessage) {
+    public String  marshalToStringOutgoingXML(FIXML changedOutMessage) {
         JAXBContext jaxbContext;
+        String result = null;
         try {
             jaxbContext = JAXBContext.newInstance(FIXML.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             StringWriter writer = new StringWriter();
             marshaller.marshal(changedOutMessage, writer);
-            String result = writer.toString();
-            producer.sendMessage(result);
+            result = writer.toString();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     /** получение объекто StringReader для чтения XML ввиде строки

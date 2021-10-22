@@ -7,7 +7,6 @@ import com.example.KafkaModificateXML.repository.DataRepository;
 import com.example.KafkaModificateXML.xmlmodification.ModificationXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +21,12 @@ public class DataService {
         this.modificationXML = modificationXML;
     }
 
+    /** сохранение объектов в БД , если обЪект с таким же типом и версией существует ,
+     *  то он возвращается обратно без сохранения в БД
+     *
+     * @param dataXmlDTO
+     * @return
+     */
     public DataXmlDTO save(DataXmlDTO dataXmlDTO) {
         TypeXML typeXML = TypeXML.valueOf(dataXmlDTO.getType());
         List<DataXML> dataXMLs = List.of(
@@ -30,7 +35,7 @@ public class DataService {
                 new DataXML(typeXML, dataXmlDTO.getIn3(), dataXmlDTO.getOut3(), dataXmlDTO.getVersion()),
                 new DataXML(typeXML, dataXmlDTO.getIn4(), dataXmlDTO.getOut4(), dataXmlDTO.getVersion())
         );
-        List<DataXML> dataXMLfindAll = dataRepository.findAllByTypeAndVersion(typeXML , dataXmlDTO.getVersion());
+        List<DataXML> dataXMLfindAll = dataRepository.findAllByTypeAndVersion(typeXML, dataXmlDTO.getVersion());
         System.out.println(dataXMLfindAll);
         if (!(dataXMLfindAll.isEmpty()) && typeXML.equals(dataXMLfindAll.get(0).getType()) &&
                 dataXMLs.get(0).getVersion() == dataXMLfindAll.get(0).getVersion()) {
@@ -51,7 +56,13 @@ public class DataService {
         return dataRepository.findAll();
     }
 
-    public DataXmlDTO findAllByType(TypeXML typeXML , Integer version) {
+    /** получение всех сущностей по типу и версии
+     *
+     * @param typeXML
+     * @param version
+     * @return
+     */
+    public DataXmlDTO findAllByTypeAndVersion(TypeXML typeXML , Integer version) {
         List<DataXML> dataXMLS = dataRepository.findAllByTypeAndVersion(typeXML , version);
         if (!(dataXMLS.isEmpty())) {
             DataXmlDTO dataXmlDTO = getDataXmlDTO(dataXMLS);
@@ -61,6 +72,11 @@ public class DataService {
         }
     }
 
+    /** преобразование объекта List<DataXML> dataXMLS в DataXmlDTO
+     *
+     * @param dataXMLS
+     * @return
+     */
     public DataXmlDTO getDataXmlDTO(List<DataXML> dataXMLS){
         DataXmlDTO dataXmlDTO = new DataXmlDTO();
         dataXmlDTO.setIn1(dataXMLS.get(0).getInValue());
@@ -74,18 +90,5 @@ public class DataService {
         dataXmlDTO.setType(dataXMLS.get(0).getType().name());
         dataXmlDTO.setVersion(dataXMLS.get(0).getVersion());
         return dataXmlDTO;
-    }
-
-    public void getModificationFields(List<DataXML> dataXMLS) {
-        List<String> fields = new ArrayList<>();
-//        fields.add(dataXML.getIncomeField1());
-//        fields.add(dataXML.getIncomeField2());
-//        fields.add(dataXML.getIncomeField3());
-//        fields.add(dataXML.getIncomeField4());
-//        fields.add(dataXML.getOutgoingField1());
-//        fields.add(dataXML.getOutgoingField2());
-//        fields.add(dataXML.getOutgoingField3());
-//        fields.add(dataXML.getOutgoingField4());
-        //modificationXML.setFieldsForWork(fields);
     }
 }

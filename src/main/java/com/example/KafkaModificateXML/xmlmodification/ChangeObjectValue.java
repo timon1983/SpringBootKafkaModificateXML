@@ -12,6 +12,15 @@ public class ChangeObjectValue {
     public ChangeObjectValue(){
     }
 
+    /** считывание значений заданных полей входящего сообщения
+     * и запись их в заданые поля исходящего сообщения
+     *
+     * @param incomeMessage
+     * @param outgoingMessage
+     * @param fieldsIncomeForWork
+     * @param fieldsOutgoingForWork
+     * @return
+     */
     public Object changeXmlMessage(FIXML incomeMessage, FIXML outgoingMessage,
                                    List<String> fieldsIncomeForWork, List<String> fieldsOutgoingForWork){
 
@@ -28,6 +37,12 @@ public class ChangeObjectValue {
         return outgoingMessage;
     }
 
+    /** получение значение поля входящего сообщения по его имени через рефлексию
+     *
+     * @param fieldName
+     * @param fixml
+     * @return
+     */
     public String getValueByFieldName(String fieldName , FIXML fixml) {
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()
@@ -47,6 +62,12 @@ public class ChangeObjectValue {
         return value;
     }
 
+    /** вставка нового значения в поле исходящего сообщения по именю поля через рефлексию
+     *
+     * @param fieldName
+     * @param value
+     * @param fixml
+     */
     public void setValueByFieldName(String fieldName, String value, FIXML fixml){
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()

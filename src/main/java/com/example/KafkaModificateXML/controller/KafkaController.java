@@ -19,21 +19,17 @@ import static org.apache.commons.beanutils.BeanUtils.copyProperties;
 @Controller
 public class KafkaController {
 
-
-    private Producer producer;
     private ModificationXML modificationXML;
     private DataService dataService;
-    private String type = "CALIPSOPI";
 
     @Autowired
-    public KafkaController(Producer producer, ModificationXML modificationXML, DataService dataService) {
-        this.producer = producer;
+    public KafkaController(ModificationXML modificationXML, DataService dataService) {
         this.modificationXML = modificationXML;
         this.dataService = dataService;
     }
 
     @GetMapping("/UI")
-    public String getUIModification(DataXmlDTO dataXmlDTO, Model model) {
+    public String getUIModification(Model model) {
         List<String> listFieldsNameOutgoing = modificationXML.getListOfFieldNameOutgoingXML();
         model.addAttribute("listFieldsNameOutgoing" , listFieldsNameOutgoing);
         return "modification-form";
@@ -43,13 +39,12 @@ public class KafkaController {
     public String getMurexData(@PathVariable String type, @PathVariable int version, DataXmlDTO dataXmlDTO)
             throws InvocationTargetException, IllegalAccessException {
         TypeXML typeXML = TypeXML.valueOf(type);
-        copyProperties(dataXmlDTO, dataService.findAllByType(typeXML, version));
+        copyProperties(dataXmlDTO, dataService.findAllByTypeAndVersion(typeXML, version));
         return "modification-form";
     }
 
     @PostMapping("/UI")
     public String modificationXML(DataXmlDTO dataXmlDTO){
-         type = dataXmlDTO.getType();
          DataXmlDTO  dataXmlDTO1 =  dataService.save(dataXmlDTO);
          return "redirect:/UI/" + dataXmlDTO1.getType() + "/" + dataXmlDTO1.getVersion();
     }
