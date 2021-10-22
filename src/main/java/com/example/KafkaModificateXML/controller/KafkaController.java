@@ -43,9 +43,8 @@ public class KafkaController {
     }
 
     @GetMapping("UI/CALIPSOPI")
-    public String getMurexData(DataXmlDTO dataXmlDTO){
-        dataXmlDTO = dataService.findAllByType(CALIPSOPI);
-        System.out.println(dataXmlDTO);
+    public String getMurexData(DataXmlDTO dataXmlDTO) throws InvocationTargetException, IllegalAccessException {
+        copyProperties(dataXmlDTO, dataService.findAllByType(CALIPSOPI));
         return "modification-form";
     }
 

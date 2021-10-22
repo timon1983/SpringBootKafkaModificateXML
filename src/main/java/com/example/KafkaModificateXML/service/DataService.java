@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DataService {
@@ -24,29 +23,35 @@ public class DataService {
         this.modificationXML = modificationXML;
     }
 
-    public void save(DataXmlDTO dataXmlDTO){
+    public void save(DataXmlDTO dataXmlDTO) {
         TypeXML typeXML = TypeXML.valueOf(dataXmlDTO.getType());
-        dataRepository.save(new DataXML(typeXML, dataXmlDTO.getIn1(), dataXmlDTO.getOut1()));
-        dataRepository.save(new DataXML(typeXML, dataXmlDTO.getIn2(), dataXmlDTO.getOut2()));
-        dataRepository.save(new DataXML(typeXML, dataXmlDTO.getIn3(), dataXmlDTO.getOut3()));
-        dataRepository.save(new DataXML(typeXML, dataXmlDTO.getIn4(), dataXmlDTO.getOut4()));
+
+        dataRepository.saveAll(
+                List.of(
+                        new DataXML(typeXML, dataXmlDTO.getIn1(), dataXmlDTO.getOut1()),
+                        new DataXML(typeXML, dataXmlDTO.getIn2(), dataXmlDTO.getOut2()),
+                        new DataXML(typeXML, dataXmlDTO.getIn3(), dataXmlDTO.getOut3()),
+                        new DataXML(typeXML, dataXmlDTO.getIn4(), dataXmlDTO.getOut4())
+                )
+        );
+
 
 //        int id = dataRepository.findAll().get(0).getId();
 //        dataRepository.deleteById(id);
 //        dataRepository.save(dataXML);
     }
 
-    public DataXML getById(int id){
-       return dataRepository.getById(id);
+    public DataXML getById(int id) {
+        return dataRepository.getById(id);
     }
 
-    public List<DataXML> findAll(){
+    public List<DataXML> findAll() {
         return dataRepository.findAll();
     }
 
-    public DataXmlDTO findAllByType(TypeXML typeXML){
+    public DataXmlDTO findAllByType(TypeXML typeXML) {
         List<DataXML> dataXMLS = dataRepository.findAllByType(typeXML);
-        if(!(dataXMLS.isEmpty())) {
+        if (!(dataXMLS.isEmpty())) {
             DataXmlDTO dataXmlDTO = new DataXmlDTO();
             dataXmlDTO.setIn1(dataXMLS.get(0).getInValue());
             dataXmlDTO.setIn2(dataXMLS.get(1).getInValue());
@@ -63,7 +68,7 @@ public class DataService {
         }
     }
 
-    public void getModificationFields(DataXmlDTO dataXML){
+    public void getModificationFields(DataXmlDTO dataXML) {
         List<String> fields = new ArrayList<>();
 //        fields.add(dataXML.getIncomeField1());
 //        fields.add(dataXML.getIncomeField2());
