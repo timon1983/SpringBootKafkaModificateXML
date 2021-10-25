@@ -41,11 +41,9 @@ public class DataService {
         System.out.println(dataXMLfindAllEntity);
         if (!(dataXMLfindAllEntity.isEmpty()) && typeXML.equals(dataXMLfindAllEntity.get(0).getType()) &&
                 dataXMLEntities.get(0).getVersion() == dataXMLfindAllEntity.get(0).getVersion()) {
-            modificationXML.workWithDataXML(getDataXmlDTO(dataXMLfindAllEntity));
-            return getDataXmlDTO(dataXMLfindAllEntity);
+            return dataXmlDTO;
         } else {
             dataRepository.saveAll(dataXMLEntities);
-            modificationXML.workWithDataXML(dataXmlDTO);
             return dataXmlDTO;
         }
     }
@@ -73,6 +71,10 @@ public class DataService {
         } else {
             return null;
         }
+    }
+
+    public DataXmlDTO findAllByMaxVersion(){
+        return getDataXmlDTO(dataRepository.findAllWithMaxVersion());
     }
 
     /**

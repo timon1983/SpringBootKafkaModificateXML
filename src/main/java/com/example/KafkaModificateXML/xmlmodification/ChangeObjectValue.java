@@ -27,14 +27,18 @@ public class ChangeObjectValue {
         String inFieldName;
         String outFieldName;
         Object inValue;
+        if (!(fieldsIncomeForWork.isEmpty())) {
 
-        for(int i = 0; i < fieldsIncomeForWork.size(); i++){
-            inFieldName = fieldsIncomeForWork.get(i);
-            outFieldName = fieldsOutgoingForWork.get(i);
-            inValue = getValueByFieldName(inFieldName, incomeMessage);
-            setValueByFieldName(outFieldName, inValue, outgoingMessage);
+            for (int i = 0; i < fieldsIncomeForWork.size(); i++) {
+                inFieldName = fieldsIncomeForWork.get(i);
+                outFieldName = fieldsOutgoingForWork.get(i);
+                inValue = getValueByFieldName(inFieldName, incomeMessage);
+                setValueByFieldName(outFieldName, inValue, outgoingMessage);
+            }
+            return outgoingMessage;
+        } else {
+            return new Object();
         }
-        return outgoingMessage;
     }
 
     /** получение значение поля входящего сообщения по его имени через рефлексию

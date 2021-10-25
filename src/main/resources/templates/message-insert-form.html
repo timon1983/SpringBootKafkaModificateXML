@@ -16,6 +16,13 @@
             <br/>
             <input type="text" th:field="*{outgoingMessage}" id="outgoingMessage" placeholder="Outgoing Message">
         </td>
+        <td>
+            <text>Topics</text>
+            <br/>
+            <input type="text" th:field="*{readTopic}" id="readTopic" placeholder="Topic from read" >
+            <br/>
+            <input type="text" th:field="*{sendTopic}" id="sendTopic" placeholder="Topic when send" >
+        </td>
         <input type="submit" value="Done">
     </table>
 </form>

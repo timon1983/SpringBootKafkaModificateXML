@@ -7,4 +7,6 @@ public class MessageDTO {
 
     private String incomeMessage;
     private String outgoingMessage;
+    private String readTopic;
+    private String sendTopic;
 }

@@ -2,6 +2,7 @@ package com.example.KafkaModificateXML.xmlmodification;
 
 import com.example.KafkaModificateXML.dto.DataXmlDTO;
 import com.example.KafkaModificateXML.kafka.Producer;
+import com.example.KafkaModificateXML.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,23 +31,18 @@ import java.util.stream.Collectors;
 @Component
 public class ModificationXML {
     private Producer producer;
-    @Value("${consumer.tagName}")
-    private String tagName;
-    @Value("${consumer.attribute}")
-    private String attribute;
-    @Value("${answer.xml}")
-    private String outXML;
-    private String valueFromIncomingMessage;
     private FIXML incomingMessage;
     private FIXML outgoingMessage;
     private List<String> fieldsIncomeForWork;
     private List<String> fieldsOutgoingForWork;
     private ChangeObjectValue changeObjectValue;
+    private MessageService messageService;
 
     @Autowired
-    public ModificationXML(Producer producer, ChangeObjectValue changeObjectValue) {
+    public ModificationXML(Producer producer, ChangeObjectValue changeObjectValue, MessageService messageService) {
         this.producer = producer;
         this.changeObjectValue = changeObjectValue;
+        this.messageService = messageService;
     }
 
     public ModificationXML() {
@@ -63,18 +59,19 @@ public class ModificationXML {
 
         unmarshalIncomingMessage(xml);
 
-        unmarshalOutgoingMessage();
+        unmarshalOutgoingMessage(messageService.findAll().getOutgoingMessage());
 
         FIXML changedOutMessage = (FIXML) changeObjectValue
                 .changeXmlMessage(incomingMessage, outgoingMessage, fieldsIncomeForWork, fieldsOutgoingForWork);
 
-        producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
+        //producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
+        System.out.println(marshalToStringOutgoingXML(changedOutMessage));
     }
 
     /**
      * демаршализация исходящего xml в объект FIXML
      */
-    public void unmarshalOutgoingMessage() {
+    public FIXML unmarshalOutgoingMessage(String outXML) {
         JAXBContext jaxbContext;
         try {
             jaxbContext = JAXBContext.newInstance(FIXML.class);
@@ -85,6 +82,7 @@ public class ModificationXML {
         } catch (JAXBException | XMLStreamException e) {
             e.printStackTrace();
         }
+        return outgoingMessage;
     }
 
     /**
@@ -93,7 +91,7 @@ public class ModificationXML {
      *
      * @param xml
      */
-    public void unmarshalIncomingMessage(String xml) {
+    public FIXML unmarshalIncomingMessage(String xml) {
         JAXBContext jaxbContext;
         List<String> fieldsValueForInsert;
         try {
@@ -110,10 +108,10 @@ public class ModificationXML {
             is.setCharacterStream(getStringReader(xml));
             filter.parse(is);
             incomingMessage = (FIXML) unmarshallerHandler.getResult();
-            valueFromIncomingMessage = ((TradeCaptureReportMessageT) incomingMessage.getBatch().get(0).getMessage().get(0).getValue()).getTrdID();
         } catch (IOException | JAXBException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
+        return incomingMessage;
     }
 
     /**
@@ -162,9 +160,9 @@ public class ModificationXML {
      *
      * @return
      */
-    public List<String> getListOfFieldNameIncomeXML() {
-        //unmarshalIncomingMessage(xml);
-        Field[] fieldsIncomingMessage = ((TradeCaptureReportMessageT) incomingMessage
+    public List<String> getListOfFieldNameIncomeXML(String xml) {
+        FIXML fixml = unmarshalIncomingMessage(xml);
+        Field[] fieldsIncomingMessage = ((TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0)
                 .getMessage()
@@ -182,9 +180,9 @@ public class ModificationXML {
      *
      * @return
      */
-    public List<String> getListOfFieldNameOutgoingXML() {
-        unmarshalOutgoingMessage();
-        Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) outgoingMessage
+    public List<String> getListOfFieldNameOutgoingXML(String outXML) {
+       FIXML fixml = unmarshalOutgoingMessage(outXML);
+        Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0).getMessage()
                 .get(0)
