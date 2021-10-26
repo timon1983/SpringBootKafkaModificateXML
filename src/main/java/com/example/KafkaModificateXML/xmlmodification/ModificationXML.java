@@ -3,8 +3,11 @@ package com.example.KafkaModificateXML.xmlmodification;
 import com.example.KafkaModificateXML.dto.DataXmlDTO;
 import com.example.KafkaModificateXML.kafka.Producer;
 import com.example.KafkaModificateXML.service.MessageService;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,10 +29,15 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+
+
 import java.util.stream.Collectors;
 
 @Component
 public class ModificationXML {
+
+    private final static Logger log = LogManager.getLogger(ModificationXML.class);
+
     private Producer producer;
     private FIXML incomingMessage;
     private FIXML outgoingMessage;
@@ -65,7 +73,8 @@ public class ModificationXML {
                 .changeXmlMessage(incomingMessage, outgoingMessage, fieldsIncomeForWork, fieldsOutgoingForWork);
 
         //producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
-        System.out.println(marshalToStringOutgoingXML(changedOutMessage));
+        //System.out.println(marshalToStringOutgoingXML(changedOutMessage));
+        log.info(marshalToStringOutgoingXML(changedOutMessage));
     }
 
     /**
@@ -156,32 +165,12 @@ public class ModificationXML {
     }
 
     /**
-     * получение всех полей входящего XML
+     * получение списка всех полей  XML
      *
      * @return
      */
-    public List<String> getListOfFieldNameIncomeXML(String xml) {
-        FIXML fixml = unmarshalIncomingMessage(xml);
-        Field[] fieldsIncomingMessage = ((TradeCaptureReportMessageT) fixml
-                .getBatch()
-                .get(0)
-                .getMessage()
-                .get(0).getValue())
-                .getClass()
-                .getDeclaredFields();
-        List<String> listFieldsNameIncome = Arrays.stream(fieldsIncomingMessage)
-                .map(Field::getName)
-                .collect(Collectors.toList());
-        return listFieldsNameIncome;
-    }
-
-    /**
-     * получение списка всех полей исходящего XML
-     *
-     * @return
-     */
-    public List<String> getListOfFieldNameOutgoingXML(String outXML) {
-       FIXML fixml = unmarshalOutgoingMessage(outXML);
+    public List<String> getListOfFieldNameXML(String outXML) {
+        FIXML fixml = unmarshalOutgoingMessage(outXML);
         Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0).getMessage()

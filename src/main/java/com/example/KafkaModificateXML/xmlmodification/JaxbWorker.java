@@ -56,7 +56,6 @@ public class JaxbWorker {
             StringWriter writer = new StringWriter();
             marshaller.marshal(fixml2, writer);
             String result = writer.toString();
-            //System.out.println(result);
 
         } catch (JAXBException | XMLStreamException | IOException | SAXException | ParserConfigurationException | NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();

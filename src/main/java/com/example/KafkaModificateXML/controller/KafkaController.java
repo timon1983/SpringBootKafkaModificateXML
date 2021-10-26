@@ -35,7 +35,7 @@ public class KafkaController {
             throws InvocationTargetException, IllegalAccessException {
         copyProperties(dataXmlDTO, dataService.findAllByMaxVersion());
         List<String> listFieldsNameOutgoing = modificationXML
-                .getListOfFieldNameOutgoingXML(messageService
+                .getListOfFieldNameXML(messageService
                         .findAll()
                         .getOutgoingMessage());
         model.addAttribute("listFieldsNameOutgoing", listFieldsNameOutgoing);
