@@ -29,15 +29,20 @@ public class MessageService {
     }
 
     public MessageDTO findAll() {
-        return getMessageDTO(messageRepository.findAll());
+        List<MessageEntity> messageEntities = messageRepository.findAll();
+        if (!(messageEntities.isEmpty())) {
+            return getMessageDTO(messageEntities);
+        } else {
+            return new MessageDTO();
+        }
     }
 
     public MessageDTO getMessageDTO(List<MessageEntity> messageEntities) {
-        if(!(messageEntities.isEmpty())){
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setIncomeMessage(messageEntities.get(0).getInMessage());
-        messageDTO.setOutgoingMessage(messageEntities.get(0).getOutMessage());
-        return messageDTO;
+        if (!(messageEntities.isEmpty())) {
+            MessageDTO messageDTO = new MessageDTO();
+            messageDTO.setIncomeMessage(messageEntities.get(0).getInMessage());
+            messageDTO.setOutgoingMessage(messageEntities.get(0).getOutMessage());
+            return messageDTO;
         } else {
             return new MessageDTO();
         }

@@ -48,14 +48,6 @@ public class DataService {
         }
     }
 
-    public DataXMLEntity getById(int id) {
-        return dataRepository.getById(id);
-    }
-
-    public List<DataXMLEntity> findAll() {
-        return dataRepository.findAll();
-    }
-
     /**
      * получение всех сущностей по типу и версии
      *
@@ -74,7 +66,12 @@ public class DataService {
     }
 
     public DataXmlDTO findAllByMaxVersion(){
-        return getDataXmlDTO(dataRepository.findAllWithMaxVersion());
+        List<DataXMLEntity> dataXMLEntities = dataRepository.findAllWithMaxVersion();
+        if(!(dataXMLEntities.isEmpty())) {
+            return getDataXmlDTO(dataXMLEntities);
+        } else {
+            return new DataXmlDTO();
+        }
     }
 
     /**

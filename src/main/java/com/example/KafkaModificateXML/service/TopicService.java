@@ -29,15 +29,20 @@ public class TopicService {
     }
 
     public MessageDTO findAll() {
-        return getMessageDTO(topicRepository.findAll());
+        List<TopicEntity> topicEntities = topicRepository.findAll();
+        if (!(topicEntities.isEmpty())) {
+            return getMessageDTO(topicEntities);
+        } else {
+            return new MessageDTO();
+        }
     }
 
     public MessageDTO getMessageDTO(List<TopicEntity> topicEntities) {
-        if(!(topicEntities.isEmpty())){
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setReadTopic(topicEntities.get(0).getReadTopic());
-        messageDTO.setSendTopic(topicEntities.get(0).getSendTopic());
-        return messageDTO;
+        if (!(topicEntities.isEmpty())) {
+            MessageDTO messageDTO = new MessageDTO();
+            messageDTO.setReadTopic(topicEntities.get(0).getReadTopic());
+            messageDTO.setSendTopic(topicEntities.get(0).getSendTopic());
+            return messageDTO;
         } else {
             return new MessageDTO();
         }
