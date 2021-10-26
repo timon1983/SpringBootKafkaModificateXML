@@ -4,7 +4,7 @@ create table if not exists data(
                                   type varchar(45) not null,
                                   in_value varchar(45),
                                   out_value varchar(45) ,
-                                  version int not null
+                                  version int not null default 0
     );
 create table if not exists topics(
                                   id serial not null,

@@ -17,7 +17,9 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-
+/** временный тестовый класс
+ *
+ */
 public class JaxbWorker {
 
 

@@ -43,11 +43,11 @@ public class TopicService {
         if (!(topicEntities.isEmpty())) {
             return getMessageDTO(topicEntities);
         } else {
-            MessageDTO messageDTO = MessageDTO.builder()
+
+            return MessageDTO.builder()
                     .sendTopic("insert_new_topic")
                     .readTopic("insert_new_topic")
                     .build();
-            return messageDTO;
         }
     }
 
@@ -64,7 +64,9 @@ public class TopicService {
                     .readTopic(topicEntities.get(0).getReadTopic())
                     .build();
         } else {
-            return MessageDTO.builder().build();
+            return MessageDTO
+                    .builder()
+                    .build();
         }
     }
 }

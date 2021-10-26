@@ -43,7 +43,9 @@ public class MessageService {
         if (!(messageEntities.isEmpty())) {
             return getMessageDTO(messageEntities);
         } else {
-            return MessageDTO.builder().build();
+            return MessageDTO
+                    .builder()
+                    .build();
         }
     }
 
@@ -60,7 +62,9 @@ public class MessageService {
                     .outgoingMessage(messageEntities.get(0).getOutMessage())
                     .build();
         } else {
-            return MessageDTO.builder().build();
+            return MessageDTO
+                    .builder()
+                    .build();
         }
     }
 }
