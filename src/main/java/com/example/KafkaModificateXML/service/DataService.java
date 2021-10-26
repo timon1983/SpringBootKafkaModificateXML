@@ -86,6 +86,7 @@ public class DataService {
      * @return
      */
     public DataXmlDTO getDataXmlDTO(List<DataXMLEntity> dataXMLEntities) {
+        // todo можно переделать на builder, @Builder в lombok
         DataXmlDTO dataXmlDTO = new DataXmlDTO();
         dataXmlDTO.setIn1(dataXMLEntities.get(0).getInValue());
         dataXmlDTO.setIn2(dataXMLEntities.get(1).getInValue());

@@ -27,6 +27,7 @@ public class Producer {
      * @param message
      */
     public void sendMessage(String message) {
+        // todo TOPIC имя переменной не по конвенции
         String TOPIC = topicService.findAll().getSendTopic();
         this.kafkaTemplate.send(TOPIC, message);
     }

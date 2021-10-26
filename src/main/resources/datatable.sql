@@ -1,3 +1,5 @@
+-- todo вот эти скрипты у меня не отрабатывают
+-- todo скрипты миграции лучше через liquibase
 create table if not exists data
 (
     id        serial not null,
