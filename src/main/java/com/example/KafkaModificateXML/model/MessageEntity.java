@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Builder
 @Table(name = "messages")
 public class MessageEntity {
 

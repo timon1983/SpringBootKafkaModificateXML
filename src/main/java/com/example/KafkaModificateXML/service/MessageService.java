@@ -25,10 +25,9 @@ public class MessageService {
      */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
-            MessageEntity messageEntity = MessageEntity.builder()
-                    .inMessage(messageDTO.getIncomeMessage())
-                    .outMessage(messageDTO.getOutgoingMessage())
-                    .build();
+            MessageEntity messageEntity = new MessageEntity();
+            messageEntity.setInMessage(messageDTO.getIncomeMessage());
+            messageEntity.setOutMessage(messageDTO.getOutgoingMessage());
             messageRepository.deleteAll();
             messageRepository.save(messageEntity);
         }

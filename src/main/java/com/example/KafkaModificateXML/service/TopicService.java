@@ -25,10 +25,9 @@ public class TopicService {
      */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
-            TopicEntity topicEntity = TopicEntity.builder()
-                    .readTopic(messageDTO.getReadTopic())
-                    .sendTopic(messageDTO.getSendTopic())
-                    .build();
+            TopicEntity topicEntity = new TopicEntity();
+            topicEntity.setSendTopic(messageDTO.getSendTopic());
+            topicEntity.setReadTopic(messageDTO.getReadTopic());
             topicRepository.deleteAll();
             topicRepository.save(topicEntity);
         }
@@ -60,7 +59,6 @@ public class TopicService {
      */
     public MessageDTO getMessageDTO(List<TopicEntity> topicEntities) {
         if (!(topicEntities.isEmpty())) {
-
             return MessageDTO.builder()
                     .sendTopic(topicEntities.get(0).getSendTopic())
                     .readTopic(topicEntities.get(0).getReadTopic())

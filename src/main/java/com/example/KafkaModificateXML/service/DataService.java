@@ -4,7 +4,6 @@ import com.example.KafkaModificateXML.dto.DataXmlDTO;
 import com.example.KafkaModificateXML.model.DataXMLEntity;
 import com.example.KafkaModificateXML.model.TypeXML;
 import com.example.KafkaModificateXML.repository.DataRepository;
-import com.example.KafkaModificateXML.xmlmodification.ModificationXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +13,10 @@ import java.util.List;
 public class DataService {
 
     private DataRepository dataRepository;
-    private ModificationXML modificationXML;
 
     @Autowired
-    public DataService(DataRepository dataRepository, ModificationXML modificationXML) {
+    public DataService(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
-        this.modificationXML = modificationXML;
     }
 
     /**
