@@ -25,9 +25,10 @@ public class TopicService {
      */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
-            TopicEntity topicEntity = new TopicEntity();
-            topicEntity.setReadTopic(messageDTO.getReadTopic());
-            topicEntity.setSendTopic(messageDTO.getSendTopic());
+            TopicEntity topicEntity = TopicEntity.builder()
+                    .readTopic(messageDTO.getReadTopic())
+                    .sendTopic(messageDTO.getSendTopic())
+                    .build();
             topicRepository.deleteAll();
             topicRepository.save(topicEntity);
         }
@@ -43,7 +44,11 @@ public class TopicService {
         if (!(topicEntities.isEmpty())) {
             return getMessageDTO(topicEntities);
         } else {
-            return new MessageDTO();
+            MessageDTO messageDTO = MessageDTO.builder()
+                    .sendTopic("insert_new_topic")
+                    .readTopic("insert_new_topic")
+                    .build();
+            return messageDTO;
         }
     }
 
@@ -55,12 +60,13 @@ public class TopicService {
      */
     public MessageDTO getMessageDTO(List<TopicEntity> topicEntities) {
         if (!(topicEntities.isEmpty())) {
-            MessageDTO messageDTO = new MessageDTO();
-            messageDTO.setReadTopic(topicEntities.get(0).getReadTopic());
-            messageDTO.setSendTopic(topicEntities.get(0).getSendTopic());
-            return messageDTO;
+
+            return MessageDTO.builder()
+                    .sendTopic(topicEntities.get(0).getSendTopic())
+                    .readTopic(topicEntities.get(0).getReadTopic())
+                    .build();
         } else {
-            return new MessageDTO();
+            return MessageDTO.builder().build();
         }
     }
 }

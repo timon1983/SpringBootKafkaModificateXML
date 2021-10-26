@@ -21,5 +21,9 @@ spring:
     username: postgres
     password: root
 
+  liquibase:
+    change-log: classpath:db.changelog/db.changelog-master.yaml
+
+
 
 

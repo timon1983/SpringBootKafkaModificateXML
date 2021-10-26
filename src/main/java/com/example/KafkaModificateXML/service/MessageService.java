@@ -25,9 +25,10 @@ public class MessageService {
      */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
-            MessageEntity messageEntity = new MessageEntity();
-            messageEntity.setInMessage(messageDTO.getIncomeMessage());
-            messageEntity.setOutMessage(messageDTO.getOutgoingMessage());
+            MessageEntity messageEntity = MessageEntity.builder()
+                    .inMessage(messageDTO.getIncomeMessage())
+                    .outMessage(messageDTO.getOutgoingMessage())
+                    .build();
             messageRepository.deleteAll();
             messageRepository.save(messageEntity);
         }
@@ -43,7 +44,7 @@ public class MessageService {
         if (!(messageEntities.isEmpty())) {
             return getMessageDTO(messageEntities);
         } else {
-            return new MessageDTO();
+            return MessageDTO.builder().build();
         }
     }
 
@@ -55,12 +56,13 @@ public class MessageService {
      */
     public MessageDTO getMessageDTO(List<MessageEntity> messageEntities) {
         if (!(messageEntities.isEmpty())) {
-            MessageDTO messageDTO = new MessageDTO();
-            messageDTO.setIncomeMessage(messageEntities.get(0).getInMessage());
-            messageDTO.setOutgoingMessage(messageEntities.get(0).getOutMessage());
-            return messageDTO;
+            return MessageDTO.builder()
+                    .incomeMessage(messageEntities.get(0).getInMessage())
+                    .outgoingMessage(messageEntities.get(0).getOutMessage())
+                    .build();
         } else {
-            return new MessageDTO();
+            return MessageDTO.builder().build();
         }
     }
 }
+

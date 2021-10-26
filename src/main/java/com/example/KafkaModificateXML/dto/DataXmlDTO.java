@@ -1,8 +1,10 @@
 package com.example.KafkaModificateXML.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class DataXmlDTO {
 
     private String type;

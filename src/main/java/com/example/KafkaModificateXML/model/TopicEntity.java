@@ -1,11 +1,13 @@
 package com.example.KafkaModificateXML.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 @Table(name = "topics")
 public class TopicEntity {
 

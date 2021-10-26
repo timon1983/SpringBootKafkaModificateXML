@@ -61,7 +61,7 @@ public class DataService {
             DataXmlDTO dataXmlDTO = getDataXmlDTO(dataXMLEntities);
             return dataXmlDTO;
         } else {
-            return null;
+            return DataXmlDTO.builder().build();
         }
     }
 
@@ -75,7 +75,7 @@ public class DataService {
         if (!(dataXMLEntities.isEmpty())) {
             return getDataXmlDTO(dataXMLEntities);
         } else {
-            return new DataXmlDTO();
+            return DataXmlDTO.builder().build();
         }
     }
 
@@ -86,18 +86,19 @@ public class DataService {
      * @return
      */
     public DataXmlDTO getDataXmlDTO(List<DataXMLEntity> dataXMLEntities) {
-        // todo можно переделать на builder, @Builder в lombok
-        DataXmlDTO dataXmlDTO = new DataXmlDTO();
-        dataXmlDTO.setIn1(dataXMLEntities.get(0).getInValue());
-        dataXmlDTO.setIn2(dataXMLEntities.get(1).getInValue());
-        dataXmlDTO.setIn3(dataXMLEntities.get(2).getInValue());
-        dataXmlDTO.setIn4(dataXMLEntities.get(3).getInValue());
-        dataXmlDTO.setOut1(dataXMLEntities.get(0).getOutValue());
-        dataXmlDTO.setOut2(dataXMLEntities.get(1).getOutValue());
-        dataXmlDTO.setOut3(dataXMLEntities.get(2).getOutValue());
-        dataXmlDTO.setOut4(dataXMLEntities.get(3).getOutValue());
-        dataXmlDTO.setType(dataXMLEntities.get(0).getType().name());
-        dataXmlDTO.setVersion(dataXMLEntities.get(0).getVersion());
-        return dataXmlDTO;
+
+        return DataXmlDTO
+                .builder()
+                .type(dataXMLEntities.get(0).getType().name())
+                .in1(dataXMLEntities.get(0).getInValue())
+                .in2(dataXMLEntities.get(1).getInValue())
+                .in3(dataXMLEntities.get(2).getInValue())
+                .in4(dataXMLEntities.get(3).getInValue())
+                .out1(dataXMLEntities.get(0).getOutValue())
+                .out2(dataXMLEntities.get(1).getOutValue())
+                .out3(dataXMLEntities.get(2).getOutValue())
+                .out4(dataXMLEntities.get(3).getOutValue())
+                .version(dataXMLEntities.get(0).getVersion())
+                .build();
     }
 }

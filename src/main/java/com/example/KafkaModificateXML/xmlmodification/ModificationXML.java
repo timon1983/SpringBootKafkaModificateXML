@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -169,17 +170,21 @@ public class ModificationXML {
      */
     public List<String> getListOfFieldNameXML(String outXML) {
         FIXML fixml = unmarshalOutgoingMessage(outXML);
-        Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) fixml
-                .getBatch()
-                .get(0).getMessage()
-                .get(0)
-                .getValue())
-                .getClass()
-                .getDeclaredFields();
-        List<String> listFieldsNameOutgoing = Arrays.stream(fieldsOutgoingMessage)
-                .map(Field::getName)
-                .collect(Collectors.toList());
-        return listFieldsNameOutgoing;
+        if(!(fixml == null)) {
+            Field[] fieldsOutgoingMessage = ((TradeCaptureReportMessageT) fixml
+                    .getBatch()
+                    .get(0).getMessage()
+                    .get(0)
+                    .getValue())
+                    .getClass()
+                    .getDeclaredFields();
+            List<String> listFieldsNameOutgoing = Arrays.stream(fieldsOutgoingMessage)
+                    .map(Field::getName)
+                    .collect(Collectors.toList());
+            return listFieldsNameOutgoing;
+        }else {
+            return new ArrayList<>();
+        }
     }
 }
 
