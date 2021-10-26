@@ -65,9 +65,14 @@ public class DataService {
         }
     }
 
-    public DataXmlDTO findAllByMaxVersion(){
+    /**
+     * получение List<DataXMLEntity> по последней версии
+     *
+     * @return
+     */
+    public DataXmlDTO findAllByMaxVersion() {
         List<DataXMLEntity> dataXMLEntities = dataRepository.findAllWithMaxVersion();
-        if(!(dataXMLEntities.isEmpty())) {
+        if (!(dataXMLEntities.isEmpty())) {
             return getDataXmlDTO(dataXMLEntities);
         } else {
             return new DataXmlDTO();

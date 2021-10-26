@@ -3,16 +3,21 @@ package com.example.KafkaModificateXML.xmlmodification;
 import org.springframework.stereotype.Component;
 import ru.trd.msk.svn.xsd.fixml.FIXML;
 import ru.trd.msk.svn.xsd.fixml.TradeCaptureReportMessageT;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
+/**
+ * класс для изменения значений в шаблоне исходящего значения
+ */
 @Component
 public class ChangeObjectValue {
 
-    public ChangeObjectValue(){
+    public ChangeObjectValue() {
     }
 
-    /** считывание значений заданных полей входящего сообщения
+    /**
+     * считывание значений заданных полей входящего сообщения
      * и запись их в заданые поля исходящего сообщения
      *
      * @param incomeMessage
@@ -22,7 +27,7 @@ public class ChangeObjectValue {
      * @return
      */
     public Object changeXmlMessage(FIXML incomeMessage, FIXML outgoingMessage,
-                                   List<String> fieldsIncomeForWork, List<String> fieldsOutgoingForWork){
+                                   List<String> fieldsIncomeForWork, List<String> fieldsOutgoingForWork) {
 
         String inFieldName;
         String outFieldName;
@@ -41,13 +46,14 @@ public class ChangeObjectValue {
         }
     }
 
-    /** получение значение поля входящего сообщения по его имени через рефлексию
+    /**
+     * получение значение поля входящего сообщения по его имени через рефлексию
      *
      * @param fieldName
      * @param fixml
      * @return
      */
-    public Object getValueByFieldName(String fieldName , FIXML fixml) {
+    public Object getValueByFieldName(String fieldName, FIXML fixml) {
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0)
@@ -66,13 +72,14 @@ public class ChangeObjectValue {
         return value;
     }
 
-    /** вставка нового значения в поле исходящего сообщения по именю поля через рефлексию
+    /**
+     * вставка нового значения в поле исходящего сообщения по именю поля через рефлексию
      *
      * @param fieldName
      * @param value
      * @param fixml
      */
-    public void setValueByFieldName(String fieldName, Object value, FIXML fixml){
+    public void setValueByFieldName(String fieldName, Object value, FIXML fixml) {
         TradeCaptureReportMessageT tradeCapture = (TradeCaptureReportMessageT) fixml
                 .getBatch()
                 .get(0)

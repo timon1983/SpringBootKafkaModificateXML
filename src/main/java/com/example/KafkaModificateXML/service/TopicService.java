@@ -18,6 +18,11 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
+    /**
+     * запись топиков в БД
+     *
+     * @param messageDTO
+     */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
             TopicEntity topicEntity = new TopicEntity();
@@ -28,6 +33,11 @@ public class TopicService {
         }
     }
 
+    /**
+     * получение всех топиков
+     *
+     * @return
+     */
     public MessageDTO findAll() {
         List<TopicEntity> topicEntities = topicRepository.findAll();
         if (!(topicEntities.isEmpty())) {
@@ -37,6 +47,12 @@ public class TopicService {
         }
     }
 
+    /**
+     * преобразование List<TopicEntity> в MessageDTO
+     *
+     * @param topicEntities
+     * @return
+     */
     public MessageDTO getMessageDTO(List<TopicEntity> topicEntities) {
         if (!(topicEntities.isEmpty())) {
             MessageDTO messageDTO = new MessageDTO();

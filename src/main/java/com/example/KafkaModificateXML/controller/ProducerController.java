@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * тестовый класс для эмуляции получения входящего сообщения
+ */
 @RestController
 public class ProducerController {
 
@@ -14,8 +17,14 @@ public class ProducerController {
         this.producer = producer;
     }
 
+    /**
+     * отправка входящего сообщения в кафку
+     *
+     * @param message
+     * @return
+     */
     @PostMapping("publish")
-    public String sendMessage(@RequestParam String message){
+    public String sendMessage(@RequestParam String message) {
         this.producer.sendMessage(message);
         return "Published successfully";
     }

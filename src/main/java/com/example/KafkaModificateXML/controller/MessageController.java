@@ -13,6 +13,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.apache.commons.beanutils.BeanUtils.copyProperties;
 
+/**
+ * Контроллер для задания значений шаблона исходящего сообщения и топиков
+ */
 @Controller
 @RequestMapping("UI")
 public class MessageController {
@@ -26,6 +29,14 @@ public class MessageController {
         this.topicService = topicService;
     }
 
+    /**
+     * вывод сообщений и топиков
+     *
+     * @param messageDTO
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
     @GetMapping("/message")
     public String getMessages(MessageDTO messageDTO) throws InvocationTargetException, IllegalAccessException {
         MessageDTO message = messageService.findAll();
@@ -36,8 +47,14 @@ public class MessageController {
         return "message-insert-form";
     }
 
+    /**
+     * задание новых сообщений и топиков
+     *
+     * @param messageDTO
+     * @return
+     */
     @PostMapping("/message")
-    public String addMessage(MessageDTO messageDTO){
+    public String addMessage(MessageDTO messageDTO) {
         messageService.save(messageDTO);
         topicService.save(messageDTO);
         return "redirect:/UI";

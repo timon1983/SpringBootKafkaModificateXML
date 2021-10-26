@@ -18,6 +18,11 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    /**
+     * сохранение сообщений в БД
+     *
+     * @param messageDTO
+     */
     public void save(MessageDTO messageDTO) {
         if (messageDTO.getReadTopic() != null && messageDTO.getSendTopic() != null) {
             MessageEntity messageEntity = new MessageEntity();
@@ -28,6 +33,11 @@ public class MessageService {
         }
     }
 
+    /**
+     * получение всех сообщений из БД
+     *
+     * @return
+     */
     public MessageDTO findAll() {
         List<MessageEntity> messageEntities = messageRepository.findAll();
         if (!(messageEntities.isEmpty())) {
@@ -37,6 +47,12 @@ public class MessageService {
         }
     }
 
+    /**
+     * преобразование List<MessageEntity> в MessageDTO
+     *
+     * @param messageEntities
+     * @return
+     */
     public MessageDTO getMessageDTO(List<MessageEntity> messageEntities) {
         if (!(messageEntities.isEmpty())) {
             MessageDTO messageDTO = new MessageDTO();

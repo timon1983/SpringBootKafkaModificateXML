@@ -3,8 +3,6 @@ package com.example.KafkaModificateXML.xmlmodification;
 import com.example.KafkaModificateXML.dto.DataXmlDTO;
 import com.example.KafkaModificateXML.kafka.Producer;
 import com.example.KafkaModificateXML.service.MessageService;
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +27,11 @@ import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-
-
 import java.util.stream.Collectors;
 
+/**
+ * класс для преобразования xml в объект и обратно
+ */
 @Component
 public class ModificationXML {
 
@@ -73,7 +72,6 @@ public class ModificationXML {
                 .changeXmlMessage(incomingMessage, outgoingMessage, fieldsIncomeForWork, fieldsOutgoingForWork);
 
         //producer.sendMessage(marshalToStringOutgoingXML(changedOutMessage));
-        //System.out.println(marshalToStringOutgoingXML(changedOutMessage));
         log.info(marshalToStringOutgoingXML(changedOutMessage));
     }
 
