@@ -39,33 +39,16 @@ public class MessageService {
      * @return
      */
     public MessageDTO findAll() {
-        List<MessageEntity> messageEntities = messageRepository.findAll();
-        if (!(messageEntities.isEmpty())) {
-            return getMessageDTO(messageEntities);
-        } else {
-            return MessageDTO
-                    .builder()
-                    .build();
-        }
-    }
-
-    /**
-     * преобразование List<MessageEntity> в MessageDTO
-     *
-     * @param messageEntities
-     * @return
-     */
-    public MessageDTO getMessageDTO(List<MessageEntity> messageEntities) {
-        if (!(messageEntities.isEmpty())) {
-            return MessageDTO.builder()
-                    .incomeMessage(messageEntities.get(0).getInMessage())
-                    .outgoingMessage(messageEntities.get(0).getOutMessage())
-                    .build();
-        } else {
-            return MessageDTO
-                    .builder()
-                    .build();
-        }
+            return  messageRepository.findAll()
+                    .stream()
+                    .map(x -> MessageDTO.builder()
+                            .incomeMessage(x.getInMessage())
+                            .outgoingMessage(x.getOutMessage())
+                            .build())
+                    .findFirst()
+                    .orElse(MessageDTO
+                            .builder()
+                            .build());
     }
 }
 

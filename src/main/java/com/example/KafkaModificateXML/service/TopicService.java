@@ -39,34 +39,17 @@ public class TopicService {
      * @return
      */
     public MessageDTO findAll() {
-        List<TopicEntity> topicEntities = topicRepository.findAll();
-        if (!(topicEntities.isEmpty())) {
-            return getMessageDTO(topicEntities);
-        } else {
-
-            return MessageDTO.builder()
-                    .sendTopic("insert_new_topic")
-                    .readTopic("insert_new_topic")
-                    .build();
-        }
-    }
-
-    /**
-     * преобразование List<TopicEntity> в MessageDTO
-     *
-     * @param topicEntities
-     * @return
-     */
-    public MessageDTO getMessageDTO(List<TopicEntity> topicEntities) {
-        if (!(topicEntities.isEmpty())) {
-            return MessageDTO.builder()
-                    .sendTopic(topicEntities.get(0).getSendTopic())
-                    .readTopic(topicEntities.get(0).getReadTopic())
-                    .build();
-        } else {
-            return MessageDTO
-                    .builder()
-                    .build();
-        }
+       return topicRepository
+               .findAll()
+               .stream()
+               .map(x -> MessageDTO
+                       .builder()
+                       .sendTopic(x.getSendTopic())
+                       .readTopic(x.getReadTopic())
+                       .build())
+               .findFirst()
+               .orElse(MessageDTO
+                       .builder()
+                       .build());
     }
 }
