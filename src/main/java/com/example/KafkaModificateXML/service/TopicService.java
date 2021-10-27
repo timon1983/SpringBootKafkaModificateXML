@@ -6,8 +6,6 @@ import com.example.KafkaModificateXML.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class TopicService {
 
@@ -39,17 +37,19 @@ public class TopicService {
      * @return
      */
     public MessageDTO findAll() {
-       return topicRepository
-               .findAll()
-               .stream()
-               .map(x -> MessageDTO
-                       .builder()
-                       .sendTopic(x.getSendTopic())
-                       .readTopic(x.getReadTopic())
-                       .build())
-               .findFirst()
-               .orElse(MessageDTO
-                       .builder()
-                       .build());
+        return topicRepository
+                .findAll()
+                .stream()
+                .map(x -> MessageDTO
+                        .builder()
+                        .sendTopic(x.getSendTopic())
+                        .readTopic(x.getReadTopic())
+                        .build())
+                .findFirst()
+                .orElse(MessageDTO
+                        .builder()
+                        .sendTopic("insert-new-topic")
+                        .readTopic("insert-new-topic")
+                        .build());
     }
 }

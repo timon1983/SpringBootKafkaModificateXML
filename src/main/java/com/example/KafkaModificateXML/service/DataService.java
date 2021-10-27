@@ -72,7 +72,7 @@ public class DataService {
         if (!(dataXMLEntities.isEmpty())) {
             return getDataXmlDTO(dataXMLEntities);
         } else {
-            return  DataXmlDTO
+            return DataXmlDTO
                     .builder()
                     .build();
         }

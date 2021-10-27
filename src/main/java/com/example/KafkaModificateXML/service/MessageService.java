@@ -6,7 +6,6 @@ import com.example.KafkaModificateXML.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class MessageService {
@@ -39,16 +38,16 @@ public class MessageService {
      * @return
      */
     public MessageDTO findAll() {
-            return  messageRepository.findAll()
-                    .stream()
-                    .map(x -> MessageDTO.builder()
-                            .incomeMessage(x.getInMessage())
-                            .outgoingMessage(x.getOutMessage())
-                            .build())
-                    .findFirst()
-                    .orElse(MessageDTO
-                            .builder()
-                            .build());
+        return messageRepository.findAll()
+                .stream()
+                .map(x -> MessageDTO.builder()
+                        .incomeMessage(x.getInMessage())
+                        .outgoingMessage(x.getOutMessage())
+                        .build())
+                .findFirst()
+                .orElse(MessageDTO
+                        .builder()
+                        .build());
     }
 }
 
